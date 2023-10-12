@@ -1,0 +1,150 @@
+.hello {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.hello li {
+  color: rgb(39, 39, 39);
+  font-family: "Noto Serif", serif;
+  font-size: 50px;
+  font-weight: bold;
+  margin-right: 2px;
+  animation: neonTxt 2.5s ease-in-out infinite alternate;
+}
+
+ul li:nth-child(2) {
+  animation-delay: 0.5s;
+}
+ul li:nth-child(3) {
+  animation-delay: 1s;
+}
+ul li:nth-child(4) {
+  animation-delay: 1.5s;
+}
+ul li:nth-child(5) {
+  animation-delay: 2s;
+}
+ul li:nth-child(6) {
+  animation-delay: 2.5s;
+}
+.signup-box form a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 0.5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+}
+
+.signup form a {
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: 0.5s;
+  letter-spacing: 4px;
+}
+
+.signup a:hover {
+  background: white;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px white, 0 0 25px white, 0 0 50px white, 0 0 100px white;
+}
+
+.signup a span {
+  position: absolute;
+  display: block;
+}
+
+.signup a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, white);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,
+  100% {
+    left: 100%;
+  }
+}
+
+.signup a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, white);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: 0.25s;
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,
+  100% {
+    top: 100%;
+  }
+}
+
+.signup a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, white);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,
+  100% {
+    right: 100%;
+  }
+}
+
+.signup a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, white);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: 0.75s;
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,
+  100% {
+    bottom: 100%;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .images {
+    display: none;
+  }
+}
