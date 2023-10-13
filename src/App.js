@@ -13,8 +13,9 @@ import Order from "./Orders";
 import Checkout from "./Checkout";
 import PaymentVerification from "./PaymentVerification";
 import Products from "./Products";
-import Favorite from "./Favorite"
-
+import Favorite from "./Favorite";
+import Posts from "./Post";
+import PostAdd from "./PostAdd";
 function App() {
   return (
     <Router>
@@ -33,6 +34,8 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/verify-payment" element={<PaymentVerification />} />
         <Route path="/favorite" element={<Favorite />} />
+        <Route path="/post" element={<Posts />} />
+        <Route path="/post_add" element={<PostAdd />} />
       </Routes>
     </Router>
   );
