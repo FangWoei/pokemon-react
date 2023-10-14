@@ -26,7 +26,6 @@ function Posts() {
     queryKey: ["posts"],
     queryFn: () => fetchPost(currentUser ? currentUser.token : ""),
   });
-  console.log(fetchPost);
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,
