@@ -23,7 +23,7 @@ function Posts() {
     queryKey: ["posts"],
     queryFn: () => fetchPosts(),
   });
-  console.log(post);
+
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,

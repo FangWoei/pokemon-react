@@ -11,12 +11,13 @@ export const getPost = async (id) => {
   return response.data;
 };
 
-export const addPosts = async (data) => {
+export const addPosts = async ({ data, token = "" }) => {
   const response = await axios({
     method: "POST",
     url: API_URL + "/post/",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
     },
     data: data,
   });
@@ -37,10 +38,13 @@ export const uploadPostImage = async (file) => {
   return response.data;
 };
 
-export const deletePost = async (post_id) => {
+export const deletePost = async ({ id = "", token = "" }) => {
   const response = await axios({
     method: "DELETE",
-    url: API_URL + "/post/" + post_id,
+    url: API_URL + "/post/" + id,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
   });
   return response.data;
 };
