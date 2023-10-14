@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 import Header from "../Header";
 import { useCookies } from "react-cookie";
 import { fetchPost, deletePost } from "../api/post";
-import { useState, useEffect } from "react";
 
 function Posts() {
   const [cookies] = useCookies(["currentUser"]);
@@ -27,6 +26,7 @@ function Posts() {
     queryKey: ["posts"],
     queryFn: () => fetchPost(currentUser ? currentUser.token : ""),
   });
+  console.log(fetchPost);
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,
