@@ -1,8 +1,15 @@
 import axios from "axios";
+
 import { API_URL } from "./data";
 
-export const fetchPosts = async () => {
-  const response = await axios.get(API_URL + "/post");
+export const fetchPost = async (token = "") => {
+  const response = await axios({
+    method: "GET",
+    url: API_URL + "/post",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
   return response.data;
 };
 
@@ -11,10 +18,10 @@ export const getPost = async (id) => {
   return response.data;
 };
 
-export const addPosts = async ({ data, token = "" }) => {
+export const createPost = async ({ data = "", token = "" }) => {
   const response = await axios({
     method: "POST",
-    url: API_URL + "/post/",
+    url: API_URL + "/post",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,

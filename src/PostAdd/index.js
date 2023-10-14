@@ -15,7 +15,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
-import { addPosts, uploadPostImage } from "../api/post";
+import { createPost, uploadPostImage } from "../api/post";
 import { useCookies } from "react-cookie";
 
 function PostAdd() {
@@ -28,7 +28,7 @@ function PostAdd() {
   const [uploading, setUploading] = useState(false);
 
   const createMutation = useMutation({
-    mutationFn: addPosts,
+    mutationFn: createPost,
     onSuccess: () => {
       notifications.show({
         title: "Post Added",

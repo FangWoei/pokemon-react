@@ -14,16 +14,18 @@ import { notifications } from "@mantine/notifications";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import Header from "../Header";
-import { fetchPosts, deletePost } from "../api/post";
+import { useCookies } from "react-cookie";
+import { fetchPost, deletePost } from "../api/post";
 
 function Posts() {
+  const [cookies] = useCookies(["currentUser"]);
+  const { currentUser } = cookies;
   const queryClient = useQueryClient();
 
   const { isLoading, data: post } = useQuery({
     queryKey: ["posts"],
-    queryFn: () => fetchPosts(),
+    queryFn: () => fetchPost(currentUser ? currentUser.token : ""),
   });
-
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,
@@ -46,7 +48,6 @@ function Posts() {
           <Title order={3} align="center">
             Posts
           </Title>
-
           <Button
             component={Link}
             to="/post_add"
@@ -93,4 +94,3 @@ function Posts() {
 }
 
 export default Posts;
-
