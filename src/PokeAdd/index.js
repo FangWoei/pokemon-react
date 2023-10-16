@@ -118,7 +118,7 @@ function PokeAdd() {
             <Space h="20px" />
             {image && image !== "" ? (
               <>
-                <Image src={"http://localhost:1204/" + image} width="100%" />
+                <Image src={"http://10.1.104.9:1204/" + image} width="100%" />
                 <Button color="dark" mt="15px" onClick={() => setImage("")}>
                   Remove Image
                 </Button>

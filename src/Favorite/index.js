@@ -80,7 +80,7 @@ export default function Favorite() {
                         <Card withBorder shadow="sm" radius="lg">
                           <Card.Section>
                             <Image
-                              src={"http://localhost:1204/" + f.pokemon.image}
+                              src={"http://10.1.104.9:1204/" + f.pokemon.image}
                             />
                           </Card.Section>
                           <Group position="center">
@@ -257,7 +257,7 @@ export default function Favorite() {
                         />
                         <Image
                           src={
-                            "http://localhost:1204/" +
+                            "http://10.1.104.9:1204/" +
                             selectedFavourite.pokemon.image
                           }
                         />

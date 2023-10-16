@@ -190,7 +190,7 @@ function Products() {
                   return (
                     <Grid.Col sm={12} md={6} lg={4} key={pro._id}>
                       <Card withBorder shadow="sm" p="20px">
-                        <Image src={"http://localhost:1204/" + pro.image} />
+                        <Image src={"http://10.1.104.9:1204/" + pro.image} />
                         <Title order={5}>{pro.name}</Title>
                         <Space h="20px" />
                         <Group position="apart" spacing="5px">

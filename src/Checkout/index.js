@@ -145,7 +145,7 @@ export default function Checkout() {
                             {c.image && c.image !== "" ? (
                               <>
                                 <Image
-                                  src={"http://localhost:1204/" + c.image}
+                                  src={"http://10.1.104.9:1204/" + c.image}
                                   width="100px"
                                 />
                               </>

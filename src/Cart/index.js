@@ -127,7 +127,7 @@ export default function Cart() {
         />
       </td>
       <td width="20%">
-        <Image src={"http://localhost:1204/" + c.image} width="200px" />
+        <Image src={"http://10.1.104.9:1204/" + c.image} width="200px" />
       </td>
       <td>{c.name}</td>
       <td>${c.price}</td>

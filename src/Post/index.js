@@ -88,7 +88,7 @@ function Posts() {
                 ? post.map((p) => (
                     <Grid.Col lg={12} key={p.id}>
                       <Card withBorder shadow="sm" p="20px">
-                        <Image src={"http://localhost:1204/" + p.image} />
+                        <Image src={"http://10.1.104.9:1204/" + p.image} />
                         <Title order={5}>Title:{p.title}</Title>
                         <Space h="20px" />
                         <Text>Text:{p.text}</Text>

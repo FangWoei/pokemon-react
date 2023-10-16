@@ -107,7 +107,8 @@ export default function Orders() {
                                   <>
                                     <Image
                                       src={
-                                        "http://localhost:1204/" + product.image
+                                        "http://10.1.104.9:1204/" +
+                                        product.image
                                       }
                                       width="100px"
                                       py={"10px"}
