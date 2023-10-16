@@ -242,11 +242,9 @@ export default function Home() {
                       <Grid.Col sm={12} md={6} lg={4} key={poke._id}>
                         <Card withBorder shadow="sm" radius="lg">
                           <Card.Section>
-                            <BackgroundImage src="/images/card.png">
-                              <Image
-                                src={"http://10.1.104.9:1204/" + poke.image}
-                              />
-                            </BackgroundImage>
+                            <Image
+                              src={"http://10.1.104.9:1204/" + poke.image}
+                            />
                           </Card.Section>
                           <Space h={"30px"} />
                           <Group position="right">
