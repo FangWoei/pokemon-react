@@ -13,7 +13,7 @@ import {
   Text,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-
+import { useMemo } from "react";
 import { useCookies } from "react-cookie";
 import { createOrder } from "../api/order";
 
@@ -28,6 +28,14 @@ export default function Checkout() {
     queryFn: getCartItems,
   });
 
+  const isUser = useMemo(() => {
+    return cookies &&
+      cookies.currentUser &&
+      (cookies.currentUser.role === "user" ||
+        cookies.currentUser.role === "admin")
+      ? true
+      : false;
+  }, [cookies]);
   const calculateTotal = () => {
     let total = 0;
     cart.map((item) => (total = total + item.quantity * item.price));
@@ -81,116 +89,120 @@ export default function Checkout() {
   };
 
   return (
-    <Container>
-      <Space h="35px" />
-      <Grid>
-        <Grid.Col span={7}>
-          <Title order={3} align="center">
-            Contact Information
-          </Title>
-          <Space h="20px" />
-          <TextInput
-            value={name}
-            placeholder="Name"
-            label="Name"
-            required
-            onChange={(event) => setName(event.target.value)}
-          />
-          <Space h="20px" />
+    <>
+      {isUser && (
+        <Container>
+          <Space h="35px" />
+          <Grid>
+            <Grid.Col span={7}>
+              <Title order={3} align="center">
+                Contact Information
+              </Title>
+              <Space h="20px" />
+              <TextInput
+                value={name}
+                placeholder="Name"
+                label="Name"
+                required
+                onChange={(event) => setName(event.target.value)}
+              />
+              <Space h="20px" />
 
-          <TextInput
-            value={email}
-            placeholder="email address"
-            label="Email"
-            required
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <Space h="20px" />
+              <TextInput
+                value={email}
+                placeholder="email address"
+                label="Email"
+                required
+                onChange={(event) => setEmail(event.target.value)}
+              />
+              <Space h="20px" />
 
-          <Button
-            loading={loading}
-            fullWidth
-            onClick={() => {
-              doCheckout();
-            }}>
-            Pay
-            <Text weight="bolder" px="5px">
-              ${calculateTotal()}
-            </Text>{" "}
-            Now
-          </Button>
-        </Grid.Col>
-        <Grid.Col span={5}>
-          <p>Your order summary</p>
-          <Table>
-            <tbody>
-              {cart ? (
-                cart.map((c) => {
-                  return (
-                    <tr key={c._id}>
-                      <td
-                        style={{
-                          borderTop: "none",
-                        }}>
-                        {c.image && c.image !== "" ? (
-                          <>
-                            <Image
-                              src={"http://localhost:1204/" + c.image}
-                              width="100px"
-                            />
-                          </>
-                        ) : (
-                          <Image
-                            src={
-                              "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg"
-                            }
-                            width="100px"
-                          />
-                        )}
-                      </td>
-                      <td
-                        style={{
-                          borderTop: "none",
-                        }}>
-                        {" "}
-                        {c.name}
-                      </td>
-                      <td
-                        style={{
-                          borderTop: "none",
-                        }}>
-                        ${c.price}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={6}>No Product Add Yet!</td>
-                </tr>
-              )}
-              <tr>
-                <td
-                  style={{
-                    borderTop: "none",
-                  }}>
-                  Total
-                </td>
-                <td
-                  style={{
-                    borderTop: "none",
-                  }}></td>
-                <td
-                  style={{
-                    borderTop: "none",
-                  }}>
+              <Button
+                loading={loading}
+                fullWidth
+                onClick={() => {
+                  doCheckout();
+                }}>
+                Pay
+                <Text weight="bolder" px="5px">
                   ${calculateTotal()}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Grid.Col>
-      </Grid>
-    </Container>
+                </Text>{" "}
+                Now
+              </Button>
+            </Grid.Col>
+            <Grid.Col span={5}>
+              <p>Your order summary</p>
+              <Table>
+                <tbody>
+                  {cart ? (
+                    cart.map((c) => {
+                      return (
+                        <tr key={c._id}>
+                          <td
+                            style={{
+                              borderTop: "none",
+                            }}>
+                            {c.image && c.image !== "" ? (
+                              <>
+                                <Image
+                                  src={"http://localhost:1204/" + c.image}
+                                  width="100px"
+                                />
+                              </>
+                            ) : (
+                              <Image
+                                src={
+                                  "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg"
+                                }
+                                width="100px"
+                              />
+                            )}
+                          </td>
+                          <td
+                            style={{
+                              borderTop: "none",
+                            }}>
+                            {" "}
+                            {c.name}
+                          </td>
+                          <td
+                            style={{
+                              borderTop: "none",
+                            }}>
+                            ${c.price}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={6}>No Product Add Yet!</td>
+                    </tr>
+                  )}
+                  <tr>
+                    <td
+                      style={{
+                        borderTop: "none",
+                      }}>
+                      Total
+                    </td>
+                    <td
+                      style={{
+                        borderTop: "none",
+                      }}></td>
+                    <td
+                      style={{
+                        borderTop: "none",
+                      }}>
+                      ${calculateTotal()}
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Grid.Col>
+          </Grid>
+        </Container>
+      )}
+    </>
   );
 }

@@ -18,10 +18,12 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useState, useMemo } from "react";
-import Header from "../Header";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function Cart() {
+  const [cookies] = useCookies(["currentUser"]);
+  const { currentUser } = cookies;
   const [checkedList, setCheckedList] = useState([]);
   const [checkAll, setCheckAll] = useState(false);
   const queryClient = useQueryClient();
@@ -30,6 +32,14 @@ export default function Cart() {
     queryFn: getCartItems,
   });
 
+  const isUser = useMemo(() => {
+    return cookies &&
+      cookies.currentUser &&
+      (cookies.currentUser.role === "user" ||
+        cookies.currentUser.role === "admin")
+      ? true
+      : false;
+  }, [cookies]);
   /* check box*/
   const checkBoxAll = (event) => {
     if (event.target.checked) {
@@ -142,68 +152,69 @@ export default function Cart() {
   ));
   return (
     <>
-      <Header />
-      <Container>
-        <Title order={3} align="center">
-          Cart
-        </Title>
-        <Table>
-          <thead>
-            <tr>
-              <th>
-                <Checkbox
-                  type="checkbox"
-                  checked={checkAll}
-                  disabled={cart && cart.length > 0 ? false : true}
-                  onChange={(event) => {
-                    checkBoxAll(event);
-                  }}
-                />
-              </th>
-              <th>Product</th>
-              <th></th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <strong>${cartTotal}</strong>
-              </td>
-              <td></td>
-            </tr>
-          </tbody>
-        </Table>
-        <Divider />
-        <Space h="20px" />
-        <Group position="apart">
-          <Button
-            disabled={checkedList.length === 0}
-            variant="outline"
-            color="red"
-            onClick={(event) => {
-              event.preventDefault();
-              deleteCheckedItems();
-            }}>
-            Delete Selected
-          </Button>
-          <Button
-            component={Link}
-            to="/checkout"
-            disabled={cart.length > 0 ? false : true}>
-            Checkout
-          </Button>
-        </Group>
-      </Container>
+      {isUser && (
+        <Container>
+          <Title order={3} align="center">
+            Cart
+          </Title>
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  <Checkbox
+                    type="checkbox"
+                    checked={checkAll}
+                    disabled={cart && cart.length > 0 ? false : true}
+                    onChange={(event) => {
+                      checkBoxAll(event);
+                    }}
+                  />
+                </th>
+                <th>Product</th>
+                <th></th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <strong>${cartTotal}</strong>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </Table>
+          <Divider />
+          <Space h="20px" />
+          <Group position="apart">
+            <Button
+              disabled={checkedList.length === 0}
+              variant="outline"
+              color="red"
+              onClick={(event) => {
+                event.preventDefault();
+                deleteCheckedItems();
+              }}>
+              Delete Selected
+            </Button>
+            <Button
+              component={Link}
+              to="/checkout"
+              disabled={cart.length > 0 ? false : true}>
+              Checkout
+            </Button>
+          </Group>
+        </Container>
+      )}
     </>
   );
 }

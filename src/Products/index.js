@@ -17,7 +17,6 @@ import { fetchProducts, deleteProduct } from "../api/products";
 import { addToCart, getCartItems } from "../api/cart";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import Header from "../Header";
 
 function Products() {
   const [cookies] = useCookies(["currentUser"]);
@@ -93,6 +92,14 @@ function Products() {
     return options;
   }, [products]);
 
+  const isUser = useMemo(() => {
+    return cookies &&
+      cookies.currentUser &&
+      (cookies.currentUser.role === "user" ||
+        cookies.currentUser.role === "admin")
+      ? true
+      : false;
+  }, [cookies]);
   const deleteMutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
@@ -121,152 +128,153 @@ function Products() {
 
   return (
     <>
-      <Container>
-        <Header />
-        <Group position="apart">
-          <Title order={3} align="center">
-            Products
-          </Title>
-          {isAdmin && (
-            <Button
-              component={Link}
-              to="/product_add"
-              variant="gradient"
-              gradient={{ from: "black", to: "White", deg: 105 }}>
-              Add New
-            </Button>
-          )}
-        </Group>
-        <Space h="20px" />
-        <Group>
-          <select
-            value={category}
-            onChange={(event) => {
-              setCategory(event.target.value);
-              setCurrentPage(1);
-            }}>
-            <option value="">All Categories</option>
-            {categoryOptions.map((category) => {
-              return (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            value={sort}
-            onChange={(event) => {
-              setSort(event.target.value);
-            }}>
-            <option value="">No Sorting</option>
-            <option value="name">Sort By Name</option>
-            <option value="price">Sort By Price</option>
-          </select>
-          <select
-            value={perPage}
-            onChange={(event) => {
-              setPerPage(parseInt(event.target.value));
-              // reset it back to page 1
-              setCurrentPage(1);
-            }}>
-            <option value="6">6 Per Page</option>
-            <option value="10">10 Per Page</option>
-            <option value={9999999}>All</option>
-          </select>
-        </Group>
-        <Space h="20px" />
-        <LoadingOverlay visible={isLoading} />
-        <Grid>
-          {currentProducts
-            ? currentProducts.map((pro) => {
+      {isUser && (
+        <Container>
+          <Group position="apart">
+            <Title order={3} align="center">
+              Products
+            </Title>
+            {isAdmin && (
+              <Button
+                component={Link}
+                to="/product_add"
+                variant="gradient"
+                gradient={{ from: "black", to: "White", deg: 105 }}>
+                Add New
+              </Button>
+            )}
+          </Group>
+          <Space h="20px" />
+          <Group>
+            <select
+              value={category}
+              onChange={(event) => {
+                setCategory(event.target.value);
+                setCurrentPage(1);
+              }}>
+              <option value="">All Categories</option>
+              {categoryOptions.map((category) => {
                 return (
-                  <Grid.Col sm={12} md={6} lg={4} key={pro._id}>
-                    <Card withBorder shadow="sm" p="20px">
-                      <Image src={"http://localhost:1204/" + pro.image} />
-                      <Title order={5}>{pro.name}</Title>
-                      <Space h="20px" />
-                      <Group position="apart" spacing="5px">
-                        <Badge
-                          variant="gradient"
-                          gradient={{ from: "teal", to: "lime", deg: 105 }}>
-                          {pro.price}
-                        </Badge>
-                        <Badge
-                          variant="gradient"
-                          gradient={{ from: "red", to: "blue" }}>
-                          {pro.category}
-                        </Badge>
-                      </Group>
-                      <Space h="20px" />
-                      <Group position="center">
-                        <Button
-                          fullWidth
-                          variant="gradient"
-                          gradient={{ from: "blue", to: "black" }}
-                          onClick={() => {
-                            addToCartMutation.mutate(pro);
-                          }}>
-                          {" "}
-                          Add To Cart
-                        </Button>
-                      </Group>
-                      <Space h="20px" />
-                      {isAdmin && (
-                        <Group position="apart">
-                          <Button
-                            component={Link}
-                            to={"/products/" + pro._id}
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                );
+              })}
+            </select>
+            <select
+              value={sort}
+              onChange={(event) => {
+                setSort(event.target.value);
+              }}>
+              <option value="">No Sorting</option>
+              <option value="name">Sort By Name</option>
+              <option value="price">Sort By Price</option>
+            </select>
+            <select
+              value={perPage}
+              onChange={(event) => {
+                setPerPage(parseInt(event.target.value));
+                // reset it back to page 1
+                setCurrentPage(1);
+              }}>
+              <option value="6">6 Per Page</option>
+              <option value="10">10 Per Page</option>
+              <option value={9999999}>All</option>
+            </select>
+          </Group>
+          <Space h="20px" />
+          <LoadingOverlay visible={isLoading} />
+          <Grid>
+            {currentProducts
+              ? currentProducts.map((pro) => {
+                  return (
+                    <Grid.Col sm={12} md={6} lg={4} key={pro._id}>
+                      <Card withBorder shadow="sm" p="20px">
+                        <Image src={"http://localhost:1204/" + pro.image} />
+                        <Title order={5}>{pro.name}</Title>
+                        <Space h="20px" />
+                        <Group position="apart" spacing="5px">
+                          <Badge
                             variant="gradient"
-                            gradient={{ from: "blue", to: "darkblue" }}
-                            size="xs"
-                            radius="50px">
-                            Edit
-                          </Button>
-                          <Button
+                            gradient={{ from: "teal", to: "lime", deg: 105 }}>
+                            {pro.price}
+                          </Badge>
+                          <Badge
                             variant="gradient"
-                            gradient={{ from: "orange", to: "red" }}
-                            size="xs"
-                            radius="50px"
+                            gradient={{ from: "red", to: "blue" }}>
+                            {pro.category}
+                          </Badge>
+                        </Group>
+                        <Space h="20px" />
+                        <Group position="center">
+                          <Button
+                            fullWidth
+                            variant="gradient"
+                            gradient={{ from: "blue", to: "black" }}
                             onClick={() => {
-                              deleteMutation.mutate({
-                                id: pro._id,
-                                token: currentUser ? currentUser.token : "",
-                              });
+                              addToCartMutation.mutate(pro);
                             }}>
-                            Delete
+                            {" "}
+                            Add To Cart
                           </Button>
                         </Group>
-                      )}
-                    </Card>
-                  </Grid.Col>
-                );
-              })
-            : null}
-        </Grid>
-        <Space h="40px" />
-        <div>
-          <span
-            style={{
-              marginRight: "10px",
-            }}>
-            Page {currentPage} of {totalPages.length}
-          </span>
-          {totalPages.map((page) => {
-            return (
-              <button
-                style={{ color: "black", width: "10px" }}
-                key={page}
-                onClick={() => {
-                  setCurrentPage(page);
-                }}>
-                {page}
-              </button>
-            );
-          })}
-        </div>
-        <Space h="40px" />
-      </Container>
+                        <Space h="20px" />
+                        {isAdmin && (
+                          <Group position="apart">
+                            <Button
+                              component={Link}
+                              to={"/products/" + pro._id}
+                              variant="gradient"
+                              gradient={{ from: "blue", to: "darkblue" }}
+                              size="xs"
+                              radius="50px">
+                              Edit
+                            </Button>
+                            <Button
+                              variant="gradient"
+                              gradient={{ from: "orange", to: "red" }}
+                              size="xs"
+                              radius="50px"
+                              onClick={() => {
+                                deleteMutation.mutate({
+                                  id: pro._id,
+                                  token: currentUser ? currentUser.token : "",
+                                });
+                              }}>
+                              Delete
+                            </Button>
+                          </Group>
+                        )}
+                      </Card>
+                    </Grid.Col>
+                  );
+                })
+              : null}
+          </Grid>
+          <Space h="40px" />
+          <div>
+            <span
+              style={{
+                marginRight: "10px",
+              }}>
+              Page {currentPage} of {totalPages.length}
+            </span>
+            {totalPages.map((page) => {
+              return (
+                <button
+                  style={{ color: "black", width: "10px" }}
+                  key={page}
+                  onClick={() => {
+                    setCurrentPage(page);
+                  }}>
+                  {page}
+                </button>
+              );
+            })}
+          </div>
+          <Space h="40px" />
+        </Container>
+      )}
     </>
   );
 }
